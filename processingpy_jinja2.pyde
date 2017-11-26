@@ -1,5 +1,6 @@
 from jinja2 import Environment
 from jinja2.loaders import DictLoader
+from jinja2.loaders import FileSystemLoader
 
 def test_inheritance():
     """
@@ -46,8 +47,15 @@ def test_translate():
 {% trans count=users|count %}{{ count }} user{% pluralize %}{{ count }} users{% endtrans %}
 """).render(user="someone", users=[1, 2, 3])
 
+def test_template_loader() :
+    print('\ntest file loader:')
+    env = Environment(loader=FileSystemLoader(sketchPath()+'/templates'))
+    tmpl = env.get_template('template.html')
+    print tmpl.render(seq=[3, 2, 4, 5, 3, 2, 0, 2, 1])
+
 test_inheritance()
 test_loop_filter()
 test_translate()
+test_template_loader()
 
 exit()

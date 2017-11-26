@@ -1,0 +1,4 @@
+{% from 'subtemplate.html' import doubled %}
+<ul>{% for item in seq %}
+  <li>{{ doubled(item) }}</li>{% endfor %}
+</ul>
