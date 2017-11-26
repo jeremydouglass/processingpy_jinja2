@@ -1,6 +1,7 @@
 from jinja2 import Environment
 from jinja2.loaders import DictLoader
 from jinja2.loaders import FileSystemLoader
+from jinja2 import Template
 
 def test_inheritance():
     """
@@ -53,9 +54,24 @@ def test_template_loader() :
     tmpl = env.get_template('template.html')
     print tmpl.render(seq=[3, 2, 4, 5, 3, 2, 0, 2, 1])
 
+def test_template():
+    # https://stackoverflow.com/questions/19931448/displaying-nested-dictionary-in-jinja2
+    template = Template(
+    """
+    {%- for key, value in tree.items() recursive%}
+        {%-if key != "R"%}
+            {{loop(value.items())}}
+        {%- else  %}
+            {{value}}
+        {%- endif %}
+    {%- endfor%}
+    """)
+    print template.render(tree = {"A": {"R": [1, 2, 3], "B": {"R": [4, 5, 6]}}})
+
 test_inheritance()
 test_loop_filter()
 test_translate()
 test_template_loader()
+test_template()
 
 exit()
